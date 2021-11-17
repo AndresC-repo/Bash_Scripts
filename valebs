@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Sets a Prefix and moves all files in two folders
+
+DEST="c_xx"
+SOURCE_1="xx_1"
+SOURCE_2="xx_2"
+
+PRE_1="1."
+PRE_2="2."
+
+echo "Runing script"
+echo "creating ${DEST} folder if it does not exist"
+mkdir -p ${DEST}
+
+echo "moving files from ${SOURCE_1} to ${DEST}"
+for file in ${SOURCE_1}/*; do mv "$file" ${DEST}/"${PRE_1}$(basename "$file")"; done;
+
+echo "moving files from ${SOURCE_2} to ${DEST}"
+for file in ${SOURCE_2}/*; do mv "$file" ${DEST}/"${PRE_2}$(basename "$file")"; done;
+
+echo "removing empty folders"
+rm -rf ${SOURCE_1} 
+rm -rf ${SOURCE_2} 
+
+echo "done"
+

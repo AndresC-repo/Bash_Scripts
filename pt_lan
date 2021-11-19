@@ -1,0 +1,44 @@
+#! /bin/bash
+FILE=~/Documents/languages/portugues.txt
+CLEAR="123"
+SPACE=" - "
+
+echo "Saving in file: ${FILE}"
+read -p "Enter word in PR : " new_word
+
+
+upper() { { local str ; read str ; }  
+echo "${str^}"
+}
+
+lower() { { local str ; read str ; }
+  echo "${str,,}"
+}
+
+add_word() {
+    echo -n ${@} | lower | upper
+}
+
+find_in_file() {
+    echo | awk -v search="$new_word" '$0 ~ search' "$FILE"
+}
+
+# ---------------------------------------- #
+# Check if word is already present 
+VAR1=$(find_in_file)
+
+if [[ "$new_word" = "$CLEAR" ]]; then 
+    echo "clearing file"
+    > ${FILE};
+
+elif [[ ! -z "$VAR1" ]]; then
+    echo "$VAR1"
+    echo "already present";
+
+else
+    read -p "Enter translation : " translation 
+    j=$(add_word $new_word)
+    i=$(add_word $translation)
+    VAR3="$j$SPACE$i"
+    echo $VAR3 >> ${FILE};
+fi
